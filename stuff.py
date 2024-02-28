@@ -25,11 +25,11 @@ tab2.scatter_chart(df,x='number_courses',y='Marks')
 
 
 tab3.subheader("Is there a relationship between courses attended and marks got?")
-model.fit(df[['time_study'],df[['Marks']])
+model.fit(df[['time_study']],df[['Marks']])
 y_preds = model.predict(df[['time_study'])
 tab3.line_chart(y_preds)
 
-model.fit(df[['number_courses'],df[['Marks']])
+model.fit(df[['number_courses']],df[['Marks']])
 y_preds = model.predict(df[['number_courses'])
 tab3.line_chart(y_preds)
                         
