@@ -16,7 +16,7 @@ y_preds = model.predict(df[['time_study','number_courses']])
 
 m_score=model.score(df[['time_study','number_courses']],df[['Marks']])
 print(m_score)
-
+df+=y_preds
 tab1, tab2, tab3,tab4 = st.tabs(["Study To Marks", "Course Count To Marks","Prediction","Raw Data"])
 
 tab1.subheader("Is there a relationship between studying time and marks got?")
