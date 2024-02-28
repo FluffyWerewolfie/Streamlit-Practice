@@ -14,7 +14,7 @@ print(df.head())
 
 
 
-m_score=model.score(df[['time_study'],df[['Marks']])
+m_score=model.score(df[['time_study']],df[['Marks']])
                         
 print(m_score)
 
