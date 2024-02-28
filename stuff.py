@@ -13,11 +13,6 @@ df = pd.read_csv("data/Student_Marks2.csv")
 print(df.head())
 
 
-
-m_score=model.score(df[['time_study']],df[['Marks']])
-                        
-print(m_score)
-
                     
 tab1, tab2, tab3,tab4 = st.tabs(["Study To Marks", "Course Count To Marks","Prediction","Raw Data"])
 
