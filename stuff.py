@@ -40,4 +40,4 @@ tab4.write(df)
 
 statFile = pd.read_csv("data/tbl_statistics.csv")
 
-main2.scatter_chart(statFile)
+main2.line_chart(statFile,x=['AboutUsTraffic','ContactTraffic'])
