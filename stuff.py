@@ -39,5 +39,5 @@ tab4.write(df)
 
 
 statFile = pd.read_csv("data/tbl_statistics.csv")
-webTraffic = statFile.drop('statisticID','Device','ScreenHeight','ScreenWidth','refferal','statTimeStamp',axis=1)
+webTraffic = statFile.drop(['statisticID','Device','ScreenHeight','ScreenWidth','refferal','statTimeStamp'],axis=1)
 main2.line_chart(webTraffic)
