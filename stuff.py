@@ -36,3 +36,8 @@ tab3.line_chart(y_preds)
 
 tab4.subheader("Numbers are superior")
 tab4.write(df)
+
+
+statFile = pd.read_csv("data/tbl_statistics.csv")
+
+main2.scatter_chart(statFile)
