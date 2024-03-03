@@ -69,7 +69,7 @@ LabelList = TFPredictCol1.empty()
 PredictionList = TFPredictCol2.empty()
 
 if predictBtnPlaceholder.button('Predict'):
-    TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
+    TFmodel= tf.keras.models.load_model("Hellla Experimental.keras",compile=False)
     y_prediction = TFmodel.predict(X)
     y_prediction=np.round(y_prediction,0)
     LabelList.write(y)
