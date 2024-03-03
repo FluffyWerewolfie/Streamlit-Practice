@@ -46,49 +46,76 @@ webTraffic = statFile.drop(['statisticID','Device','ScreenHeight','ScreenWidth',
 main2.line_chart(webTraffic)
 
 
-
+TFtab1, TFtab2,TFtab3 = main3.tabs(["Pretrained Neural Network", "Visualize A Network Train","Raw Dataset"])
 from sklearn.model_selection import train_test_split
-TFData = pd.read_csv("data/training1.csv")
-y=TFData['label']
-X = pd.get_dummies(TFData.drop(['entryID','label'], axis=1))
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.6)
-
-
 from tensorflow.keras.models import Sequential,load_model
 from tensorflow.keras.layers import Dense
 from sklearn.metrics import accuracy_score
 
-#TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
+TFData = pd.read_csv("data/training1.csv")
 
-TFmodel= Sequential()
-TFmodel.add(Dense(units=100,activation='sigmoid',input_dim=len(X_train.columns)))
-TFmodel.add(tf.keras.layers.Dropout(0.2, input_shape=(10,)))
-TFmodel.add(Dense(units=10,activation='sigmoid'))
-TFmodel.add(Dense(units=1,activation='relu'))
+TFtab3.subheader("100 entries per row making a 10x10 grid image with 0 for a blank pixel 1 for a colored pixel:\n239 Labeled Examples")
+TFtab3.write(TFData)
 
-TFmodel.compile(loss=tf.keras.losses.MeanAbsoluteError(),optimizer='adam',metrics=[tf.keras.metrics.Accuracy()])
+y=TFData['label']
+X = pd.get_dummies(TFData.drop(['entryID','label'], axis=1))
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.6)
 
+predictBtnPlaceholder=TFtab1.empty()
+TFPredictCol1,TFPredictCol2 = TFtab1.columns(2)
+TFPredictCol1.subheader('Original Label:')
+TFPredictCol2.subheader('Network Guess:')
+LabelList = TFPredictCol1.empty()
+PredictionList = TFPredictCol2.empty()
 
-#main3.write(y_test)
-#main3.write(y_prediction)
-
-dataFun = []
-dataFun2=[]
-lol = main3.line_chart(dataFun)
-lol2 = main3.line_chart(dataFun2)
-
-#TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
-for x in range(15):
-    TFmodel.fit(X_train, y_train, epochs=200)
-    y_prediction = TFmodel.predict(X_train)
+if predictBtnPlaceholder.button('Predict'):
+    TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
+    y_prediction = TFmodel.predict(X)
     y_prediction=np.round(y_prediction,0)
-    dataFun.append(accuracy_score(y_train,y_prediction))
+    LabelList.write(y)
+    PredictionList.write(y_prediction)
+    TFtab1.subheader('Accuracy: ' + str(accuracy_score(y,y_prediction)))
 
-    y_prediction = TFmodel.predict(X_test)
-    y_prediction=np.round(y_prediction,0)
-    dataFun2.append(accuracy_score(y_test,y_prediction))
-    lol.add_rows(dataFun)
-    lol2.add_rows(dataFun2)
 
-TFmodel.save('Hellla Experimental.keras')
+trainBtnPlaceholder = TFtab2.empty()
+TFcol1,TFcol2 = TFtab2.columns(2)
+chart1 = TFcol1.empty()
+chart2 = TFcol2.empty()
+if trainBtnPlaceholder.button('Train'):
+    #TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
+
+    TFmodel= Sequential()
+    TFmodel.add(Dense(units=100,activation='relu',input_dim=len(X_train.columns)))
+    TFmodel.add(tf.keras.layers.Dropout(.2, input_shape=(100,)))
+    TFmodel.add(Dense(units=10,activation='sigmoid'))
+    TFmodel.add(Dense(units=100,activation='relu'))
+    TFmodel.add(Dense(units=10,activation='sigmoid'))
+    TFmodel.add(Dense(units=1,activation='relu'))
+
+    TFmodel.compile(loss=tf.keras.losses.MeanAbsoluteError(),optimizer='adam',metrics=[tf.keras.metrics.Accuracy()])
+
+
+    #main3.write(y_test)
+    #main3.write(y_prediction)
+
+    dataFun = []
+    dataFun2=[]
+    TFcol1.subheader('Accuracy On Trained Data')
+    lol = chart1.line_chart(dataFun)
+    TFcol2.subheader('Accuracy On Unseen Data')
+    lol2 = chart2.line_chart(dataFun2)
+
+    #TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
+    for x in range(100):
+        TFmodel.fit(X_train, y_train, epochs=20,batch_size=239)
+        y_prediction = TFmodel.predict(X_train)
+        y_prediction=np.round(y_prediction,0)
+        dataFun.append(accuracy_score(y_train,y_prediction))
+
+        y_prediction = TFmodel.predict(X_test)
+        y_prediction=np.round(y_prediction,0)
+        dataFun2.append(accuracy_score(y_test,y_prediction))
+        lol.add_rows(dataFun)
+        lol2.add_rows(dataFun2)
+    #TFmodel.save('Hellla Experimental1.keras')
+
