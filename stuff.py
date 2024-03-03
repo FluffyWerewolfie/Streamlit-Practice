@@ -72,6 +72,7 @@ PredictionList = TFPredictCol2.empty()
 
 if predictBtnPlaceholder.button('Predict'):
     TFmodel = tf.keras.models.load_model("Hellla Experimental1",compile=False)
+    #TFmodel = tf.keras.models.load_model("Hellla Experimental.keras",compile=False)
     y_prediction = TFmodel.predict(X)
     y_prediction=np.round(y_prediction,0)
     LabelList.write(y)
@@ -113,4 +114,5 @@ if trainBtnPlaceholder.button('Train'):
         lol.add_rows(dataFun)
         lol2.add_rows(dataFun2)
     #TFmodel.save('Hellla Experimental1')
+    #TFmodel.save('Hellla Experimental.keras')
 
