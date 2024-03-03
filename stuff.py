@@ -82,7 +82,6 @@ TFcol1,TFcol2 = TFtab2.columns(2)
 chart1 = TFcol1.empty()
 chart2 = TFcol2.empty()
 if trainBtnPlaceholder.button('Train'):
-    #TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
 
     TFmodel= Sequential()
     TFmodel.add(Dense(units=100,activation='relu',input_dim=len(X_train.columns)))
@@ -94,10 +93,6 @@ if trainBtnPlaceholder.button('Train'):
 
     TFmodel.compile(loss=tf.keras.losses.MeanAbsoluteError(),optimizer='adam',metrics=[tf.keras.metrics.Accuracy()])
 
-
-    #main3.write(y_test)
-    #main3.write(y_prediction)
-
     dataFun = []
     dataFun2=[]
     TFcol1.subheader('Accuracy On Trained Data')
@@ -105,7 +100,6 @@ if trainBtnPlaceholder.button('Train'):
     TFcol2.subheader('Accuracy On Unseen Data')
     lol2 = chart2.line_chart(dataFun2)
 
-    #TFmodel= tf.keras.models.load_model("Hellla Experimental.keras")
     for x in range(100):
         TFmodel.fit(X_train, y_train, epochs=20,batch_size=239)
         y_prediction = TFmodel.predict(X_train)
@@ -117,5 +111,4 @@ if trainBtnPlaceholder.button('Train'):
         dataFun2.append(accuracy_score(y_test,y_prediction))
         lol.add_rows(dataFun)
         lol2.add_rows(dataFun2)
-    #TFmodel.save('Hellla Experimental1.keras')
 
