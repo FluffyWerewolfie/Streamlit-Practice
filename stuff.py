@@ -6,6 +6,7 @@ from tensorflow import keras
 
 from sklearn.preprocessing import PolynomialFeatures
 TF_ENABLE_ONEDNN_OPTS=0
+
 st.write("""
 # My first app
 Sure is nice to *try* new things out!
@@ -68,13 +69,16 @@ TFPredictCol2.subheader('Network Guess:')
 LabelList = TFPredictCol1.empty()
 PredictionList = TFPredictCol2.empty()
 
-if predictBtnPlaceholder.button('Predict'):
+@st.cache(allow_output_mutation=True)
+def PredictFromModel():
     TFmodel= tf.keras.models.load_model("Hellla Experimental.keras",compile=False)
     y_prediction = TFmodel.predict(X)
     y_prediction=np.round(y_prediction,0)
     LabelList.write(y)
     PredictionList.write(y_prediction)
     TFtab1.subheader('Accuracy: ' + str(accuracy_score(y,y_prediction)))
+if predictBtnPlaceholder.button('Predict'):
+    PredictFromModel()
 
 
 trainBtnPlaceholder = TFtab2.empty()
