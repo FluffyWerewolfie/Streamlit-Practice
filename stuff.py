@@ -69,17 +69,14 @@ TFPredictCol2.subheader('Network Guess:')
 LabelList = TFPredictCol1.empty()
 PredictionList = TFPredictCol2.empty()
 
-@st.cache(allow_output_mutation=True)
-def PredictFromModel():
-    TFmodel= tf.keras.models.load_model("Hellla Experimental.keras",compile=False)
+
+if predictBtnPlaceholder.button('Predict'):
+    TFmodel = tf.keras.models.load_model("Hellla Experimental1",compile=False)
     y_prediction = TFmodel.predict(X)
     y_prediction=np.round(y_prediction,0)
     LabelList.write(y)
     PredictionList.write(y_prediction)
     TFtab1.subheader('Accuracy: ' + str(accuracy_score(y,y_prediction)))
-if predictBtnPlaceholder.button('Predict'):
-    PredictFromModel()
-
 
 trainBtnPlaceholder = TFtab2.empty()
 TFcol1,TFcol2 = TFtab2.columns(2)
@@ -105,7 +102,7 @@ if trainBtnPlaceholder.button('Train'):
     lol2 = chart2.line_chart(dataFun2)
 
     for x in range(100):
-        TFmodel.fit(X_train, y_train, epochs=20,batch_size=239)
+        TFmodel.fit(X_train, y_train, epochs=20)
         y_prediction = TFmodel.predict(X_train)
         y_prediction=np.round(y_prediction,0)
         dataFun.append(accuracy_score(y_train,y_prediction))
@@ -115,4 +112,5 @@ if trainBtnPlaceholder.button('Train'):
         dataFun2.append(accuracy_score(y_test,y_prediction))
         lol.add_rows(dataFun)
         lol2.add_rows(dataFun2)
+    #TFmodel.save('Hellla Experimental1')
 
