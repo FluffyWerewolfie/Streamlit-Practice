@@ -53,7 +53,7 @@ from tensorflow.keras.models import Sequential,load_model
 from tensorflow.keras.layers import Dense
 from sklearn.metrics import accuracy_score
 
-TFData = pd.read_csv("data/training1.csv")
+TFData = pd.read_csv("data/training.csv")
 
 TFtab3.subheader("100 entries per row making a 10x10 grid image with 0 for a blank pixel 1 for a colored pixel:\n239 Labeled Examples")
 TFtab3.write(TFData)
